@@ -1,0 +1,49 @@
+{
+  "SearchResult": {
+    "TotalResultCount": 3,
+    "Items": [
+      {
+        "ASIN": "B00TEST001",
+        "DetailPageURL": "https://www.amazon.com/dp/B00TEST001",
+        "ItemInfo": {
+          "Title": {"DisplayValue": "Sample Mechanical Keyboard A"},
+          "ByLineInfo": {"Brand": {"DisplayValue": "BrandA"}},
+          "Classifications": {"ProductGroup": {"DisplayValue": "CE"}}
+        },
+        "Images": {"Primary": {"Large": {"URL": "https://via.placeholder.com/300x200"}}},
+        "Offers": {"Listings": [{
+          "Price": {"Amount": 69.99, "Currency": "USD"},
+          "SavingBasis": {"Amount": 89.99, "Currency": "USD"},
+          "Savings": {"Amount": 20.00, "Currency": "USD"}
+        }]}
+      },
+      {
+        "ASIN": "B00TEST002",
+        "DetailPageURL": "https://www.amazon.com/dp/B00TEST002",
+        "ItemInfo": {
+          "Title": {"DisplayValue": "Sample Mechanical Keyboard B"},
+          "ByLineInfo": {"Brand": {"DisplayValue": "BrandB"}},
+          "Classifications": {"ProductGroup": {"DisplayValue": "CE"}}
+        },
+        "Images": {"Primary": {"Large": {"URL": "https://via.placeholder.com/300x200"}}},
+        "Offers": {"Listings": [{
+          "Price": {"Amount": 119.99, "Currency": "USD"}
+        }]}
+      },
+      {
+        "ASIN": "B00TEST003",
+        "DetailPageURL": "https://www.amazon.com/dp/B00TEST003",
+        "ItemInfo": {
+          "Title": {"DisplayValue": "Sample Mechanical Keyboard C"},
+          "ByLineInfo": {"Brand": {"DisplayValue": "BrandA"}},
+          "Classifications": {"ProductGroup": {"DisplayValue": "CE"}}
+        },
+        "Images": {"Primary": {"Large": {"URL": "https://via.placeholder.com/300x200"}}},
+        "Offers": {"Listings": [{
+          "Price": {"Amount": 49.50, "Currency": "USD"}
+        }]}
+      }
+    ]
+  }
+}
+
