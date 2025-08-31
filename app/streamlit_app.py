@@ -13,6 +13,11 @@ try:
 except Exception:  # pragma: no cover - allow UI to render even if deps missing
     PaapiClient = None  # type: ignore
 
+try:
+    from backend.datasources.rainforest_client import RainforestClient
+except Exception:
+    RainforestClient = None  # type: ignore
+
 
 st.set_page_config(page_title="Marketplace Analyzer (Amazon)", layout="wide")
 st.title("Marketplace Analyzer — Amazon (MVP)")
@@ -21,6 +26,10 @@ st.title("Marketplace Analyzer — Amazon (MVP)")
 def have_paapi_keys() -> bool:
     cfg = load_paapi_config()
     return bool(cfg.access_key and cfg.secret_key and cfg.partner_tag)
+
+
+def have_rainforest_key() -> bool:
+    return bool(os.getenv("RAINFOREST_API_KEY", "").strip())
 
 
 def to_frame(products: List[Product]) -> pd.DataFrame:
@@ -51,18 +60,37 @@ with st.sidebar:
     st.header("Search")
     keywords = st.text_input("Keywords", value="mechanical keyboard")
     page = st.number_input("Page", min_value=1, value=1, step=1)
+    data_source = st.selectbox("Data Source", ["Auto", "PA-API", "Rainforest"], index=0)
     submitted = st.button("Search")
     st.markdown("—")
-    if not have_paapi_keys():
-        st.info("No PA-API keys detected. Running in sample mode.")
+    if data_source == "PA-API" and not have_paapi_keys():
+        st.info("PA-API keys missing; will fall back to sample mode.")
+    if data_source == "Rainforest" and not have_rainforest_key():
+        st.info("No Rainforest API key detected. Set RAINFOREST_API_KEY in .env")
 
 
 def run_search():
-    if have_paapi_keys() and PaapiClient is not None:
-        cfg = load_paapi_config()
-        client = PaapiClient(cfg)
-        resp = client.search_items(keywords=keywords, page=page)
-        return resp.products
+    if data_source == "PA-API":
+        if have_paapi_keys() and PaapiClient is not None:
+            cfg = load_paapi_config()
+            client = PaapiClient(cfg)
+            resp = client.search_items(keywords=keywords, page=page)
+            return resp.products
+    elif data_source == "Rainforest":
+        if have_rainforest_key() and RainforestClient is not None:
+            client = RainforestClient()
+            resp = client.search_items(keywords=keywords, page=page)
+            return resp.products
+    else:  # Auto mode
+        if have_paapi_keys() and PaapiClient is not None:
+            cfg = load_paapi_config()
+            client = PaapiClient(cfg)
+            resp = client.search_items(keywords=keywords, page=page)
+            return resp.products
+        if have_rainforest_key() and RainforestClient is not None:
+            client = RainforestClient()
+            resp = client.search_items(keywords=keywords, page=page)
+            return resp.products
     # sample mode
     sample_path = os.path.join(os.path.dirname(__file__), "../samples/search_sample.json")
     try:
@@ -105,4 +133,3 @@ if submitted:
                 st.write(f"Price: {first.price.amount} {first.price.currency}" if first.price else "Price: -")
                 if first.url:
                     st.markdown(f"[Open on Amazon]({first.url})")
-

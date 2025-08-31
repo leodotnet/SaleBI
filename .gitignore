@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Dependencies/packaging
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+wheels/
+
+# Testing/coverage
+.pytest_cache/
+.coverage*
+htmlcov/
+
+# Type checkers/caches
+.mypy_cache/
+.pytype/
+.ruff_cache/
+.pyright/
+.cache/
+
+# Editors/OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit local config (if present)
+.streamlit/
+
+# Environment files (keep example)
+.env
+.env.*
+!.env.example
+
